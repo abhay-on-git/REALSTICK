@@ -10,7 +10,7 @@ const responsive = {
 };
 
 const items = mainCarouselData.map((item)=> (
-  <div className='w-full overflow-hidden h-[30vmax]'>
+  <div className='w-full overflow-hidden md:h-[24vmax] h-[20vmax]'>
     <img className='w-full h-full object-cover cursor-pointer' role='presentation' src={`${item.image}`} alt='image'/>
   </div>
 ));
@@ -21,6 +21,7 @@ const MainCarousel = () => (
         items={items}
         responsive={responsive}
         controlsStrategy="alternate"
+        disableDotsControls
         disableButtonsControls
         autoPlay
         autoPlayInterval={1000}

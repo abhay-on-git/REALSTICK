@@ -1,0 +1,31 @@
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px 15px; /* Adjusted padding */
+  cursor: pointer;
+  z-index: 10;
+  font-size: 1.5rem;
+  width: auto; /* Ensure width is auto */
+  border-radius: 5px;
+}
+
+.carousel-btn:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.alice-carousel__prev-btn {
+  left: 10px; /* Adjusted position */
+}
+
+.alice-carousel__next-btn {
+  right: 10px; /* Adjusted position */
+}
+
+.alice-carousel__prev-btn-item,
+.alice-carousel__next-btn-item {
+  display: none; /* Hide default buttons */
+}
