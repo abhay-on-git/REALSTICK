@@ -13,11 +13,11 @@ const responsive = {
 
 const items = [1,1,1,1,1,1,1,1,1,1,1,].map((item)=>(<HomeSectionCard product={item}/>))
 
-const HomeSectionCarousel = () => {
+const HomeSectionCarousel = (props) => {
   return (
     <div className="">
       <div className=" lg:p-8 py-8 relative">
-      <h2 className="lg:text-3xl text-2xl font-bold text-center  text-gray-900 lg:mb-8 mb-4">TRENDING</h2>
+      <h2 className="lg:text-3xl text-2xl font-bold text-center  text-gray-900 lg:mb-8 mb-4">{props.title || 'TRENDING'}</h2>
         <AliceCarousel
           mouseTracking
           items={items}

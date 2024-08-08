@@ -17,6 +17,7 @@ const items = mainCarouselData.map((item)=> (
 
 const MainCarousel = () => (
       <AliceCarousel
+      className='-z-30'
         mouseTracking
         items={items}
         responsive={responsive}

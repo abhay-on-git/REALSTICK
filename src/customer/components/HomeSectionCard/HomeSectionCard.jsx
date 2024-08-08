@@ -15,7 +15,7 @@ const HomeSectionCard = ({product}) => {
 
       <div className="p-4 w-full">
         <h1 className="text-xl font-bold text-gray-900">{product.brand || 'RealStick'}</h1>
-        <p className="mt-1 text-sm text-gray-500">{product.description || 'Men Pure Gen-Z vibe Ts'}</p>
+        <p className="mt-1 text-sm text-gray-500">{product.description || 'UNISEX Pure Gen-Z vibe Ts'}</p>
       </div>
     </div>
   );
