@@ -10,7 +10,7 @@ const Homepage = () => {
         <div>
           <Categories/>
         </div>
-        <div>
+        <div className='lg:px-20'>
            <HomeSectionCarousel/>
         </div>
     </div>

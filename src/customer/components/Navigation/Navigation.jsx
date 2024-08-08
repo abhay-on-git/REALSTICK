@@ -284,13 +284,12 @@ export default function Navigation() {
               {/* Logo */}
               <div className="ml-4 flex font-semibold lg:ml-0">
                 <a href="#">
-                  <span className="sr-only">REALSTICK</span>
+                  <h1 className="text-lg font-semibold">REALSTICK</h1>
                   {/* <img
                     alt=""
                     src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                     className="h-8 w-auto"
                   /> */}
-                  REALSTICK
                 </a>
               </div>
 

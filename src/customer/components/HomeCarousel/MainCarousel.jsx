@@ -10,7 +10,7 @@ const responsive = {
 };
 
 const items = mainCarouselData.map((item)=> (
-  <div className='w-full overflow-hidden md:h-[24vmax] h-[20vmax]'>
+  <div className='w-full overflow-hidden md:h-[24vmax] h-[30vmax]'>
     <img className='w-full h-full object-cover cursor-pointer' role='presentation' src={`${item.image}`} alt='image'/>
   </div>
 ));

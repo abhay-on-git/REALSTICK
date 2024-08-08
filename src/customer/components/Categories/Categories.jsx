@@ -11,13 +11,13 @@ const categories = [
 const Categories = () => {
   return (
     <div className="lg:px-32 lg:py-8 p-3">
-      <h2 className="text-3xl font-bold text-center  text-gray-900 mb-8">Categories</h2>
+      <h2 className="lg:text-3xl text-2xl font-bold text-center  text-gray-900 lg:mb-8 mb-4">CATEGORIES</h2>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 lg:gap-5 gap-3">
         {categories.map((category, index) => (
           <div
             key={category.name}
-            className={`group h-[12rem] lg:h-[15rem] relative overflow-hidden rounded-lg shadow-lg cursor-pointer transform transition-transform hover:scale-105 ${
-              index === categories.length - 1 ? 'col-span-2 md:col-span-1 lg:col-span-1' : 'col-span-1'
+            className={`group h-[8rem] lg:h-[15rem] relative overflow-hidden rounded-lg shadow-lg cursor-pointer transform transition-transform hover:scale-105 ${
+              index === categories.length - 1 ? 'col-span-2 md:col-span-2 lg:col-span-1' : 'col-span-1'
             }`}
           >
             <img
@@ -26,6 +26,9 @@ const Categories = () => {
               className="object-cover w-full h-full group-hover:opacity-75"
             />
             <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+              <span className="text-white text-lg font-bold">{category.name}</span>
+            </div>
+            <div className="lg:hidden absolute inset-0 bg-[#00000033] text-opacity-95 flex items-center justify-center">
               <span className="text-white text-lg font-bold">{category.name}</span>
             </div>
           </div>
