@@ -1,9 +1,9 @@
 import React from "react";
 
-const ProductCard = () => {
+const ProductCard = ({product}) => {
   return (
-    <div class="relative group">
-    <div class="overflow-hidden aspect-w-1 aspect-h-1">
+    <div class="relative group w-full">
+    <div class="overflow-hidden aspect-w-auto aspect-h-1 ">
         <img class="object-cover w-full h-full transition-all duration-300 group-hover:scale-125" src="https://cdn.rareblocks.xyz/collection/clarity-ecommerce/images/item-cards/4/product-1.png" alt="" />
     </div>
     <div class="absolute left-3 top-3">
@@ -48,6 +48,7 @@ const ProductCard = () => {
 
         <div class="text-right">
             <p class="text-xs font-bold text-gray-900 sm:text-sm md:text-base">$99.00</p>
+            <p class="text-xs font-bold line-through text-[#00000070] sm:text-sm md:text-base">$999.00</p>
         </div>
     </div>
 </div>
