@@ -1,6 +1,7 @@
 import React from "react";
 import ProductCard from "./ProductCard";
 import { useState } from "react";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import {
   Dialog,
   DialogBackdrop,
@@ -22,6 +23,14 @@ import {
   Squares2X2Icon,
 } from "@heroicons/react/20/solid";
 import { filters, singleFilter } from "./FilterData";
+import {
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Radio,
+  RadioGroup,
+} from "@mui/material";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const sortOptions = [
   { name: "Most Popular", href: "#", current: true },
@@ -31,14 +40,48 @@ const sortOptions = [
   { name: "Price: High to Low", href: "#", current: false },
 ];
 
-
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 const Products = () => {
+  const location = useLocation();
+  const navigate = useNavigate()
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const handleFilter = (value, sectionId) => {
+    // Parse the search params from the current location
+    const searchParams = new URLSearchParams(location.search);
+    
+    // Get the current filter values for the given sectionId
+    let filterValue = searchParams.get(sectionId)?.split(',') || [];
 
+    // Check if the value is already selected
+    if (filterValue.includes(value)) {
+      // If it is, remove it
+      filterValue = filterValue.filter(item => item !== value);
+
+      // If no values left, delete the param
+      if (filterValue.length === 0) {
+        searchParams.delete(sectionId);
+      } else {
+        // Otherwise, update the param with the remaining values
+        searchParams.set(sectionId, filterValue.join(','));
+      }
+    } else {
+      // If the value is not selected, add it to the list
+      filterValue.push(value);
+      searchParams.set(sectionId, filterValue.join(','));
+    }
+
+    // Generate the updated query string
+    const query = searchParams.toString();
+
+    // Navigate to the new URL
+    navigate({ search: `?${query}` });
+
+    // Debugging the query string
+    console.log(query);
+  };
   return (
     <div className="bg-white">
       <div>
@@ -143,30 +186,26 @@ const Products = () => {
                       </DisclosureButton>
                     </h3>
                     <DisclosurePanel className="pt-6">
-                      <div className="space-y-6">
-                        {section.options.map((option, optionIdx) => (
-                          <div key={option.value} className="flex items-center">
-                            <input
-                              defaultValue={option.value}
-                              defaultChecked={option.checked}
-                              id={`filter-mobile-${section.id}-${optionIdx}`}
-                              name={`${section.id}[]`}
-                              type="checkbox"
-                              className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                            />
-                            <label
-                              htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
-                              className="ml-3 min-w-0 flex-1 text-gray-500"
-                            >
-                              {option.label}
-                            </label>
-                          </div>
-                        ))}
+                      <div className="space-y-4">
+                        <FormControl>
+                          <RadioGroup
+                            aria-labelledby="demo-radio-buttons-group-label"
+                            defaultValue="female"
+                            name="radio-buttons-group"
+                          >
+                            {section.options.map((option, optionIdx) => (
+                              <FormControlLabel
+                                value={option.id}
+                                control={<Radio />}
+                                label={option.label}
+                              />
+                            ))}
+                          </RadioGroup>
+                        </FormControl>
                       </div>
                     </DisclosurePanel>
                   </Disclosure>
                 ))}
-               
               </form>
             </DialogPanel>
           </div>
@@ -240,6 +279,12 @@ const Products = () => {
             <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
               {/* Filters */}
               <form className="hidden lg:block">
+                <div className="flex justify-between items-center py-2">
+                  <h1 className="text-xl text-gray-600 font-medium hidden lg:block">
+                    Filters
+                  </h1>
+                  <FilterAltIcon style={{ color: "lightgray" }} />
+                </div>
                 {filters.map((section) => (
                   <Disclosure
                     key={section.id}
@@ -268,6 +313,9 @@ const Products = () => {
                         {section.options.map((option, optionIdx) => (
                           <div key={option.value} className="flex items-center">
                             <input
+                              onChange={() =>
+                                handleFilter(option.value, section.id)
+                              }
                               defaultValue={option.value}
                               defaultChecked={option.checked}
                               id={`filter-${section.id}-${optionIdx}`}
@@ -312,24 +360,21 @@ const Products = () => {
                     </h3>
                     <DisclosurePanel className="pt-6">
                       <div className="space-y-4">
-                        {section.options.map((option, optionIdx) => (
-                          <div key={option.value} className="flex items-center">
-                            <input
-                              defaultValue={option.value}
-                              defaultChecked={option.checked}
-                              id={`filter-${section.id}-${optionIdx}`}
-                              name={`${section.id}[]`}
-                              type="checkbox"
-                              className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                            />
-                            <label
-                              htmlFor={`filter-${section.id}-${optionIdx}`}
-                              className="ml-3 text-sm text-gray-600"
-                            >
-                              {option.label}
-                            </label>
-                          </div>
-                        ))}
+                        <FormControl>
+                          <RadioGroup
+                            aria-labelledby="demo-radio-buttons-group-label"
+                            defaultValue="female"
+                            name="radio-buttons-group"
+                          >
+                            {section.options.map((option, optionIdx) => (
+                              <FormControlLabel
+                                value={option.id}
+                                control={<Radio />}
+                                label={option.label}
+                              />
+                            ))}
+                          </RadioGroup>
+                        </FormControl>
                       </div>
                     </DisclosurePanel>
                   </Disclosure>
