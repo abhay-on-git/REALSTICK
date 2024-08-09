@@ -46,31 +46,31 @@ function classNames(...classes) {
 
 const Products = () => {
   const location = useLocation();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const handleFilter = (value, sectionId) => {
     // Parse the search params from the current location
     const searchParams = new URLSearchParams(location.search);
-    
+
     // Get the current filter values for the given sectionId
-    let filterValue = searchParams.get(sectionId)?.split(',') || [];
+    let filterValue = searchParams.get(sectionId)?.split(",") || [];
 
     // Check if the value is already selected
     if (filterValue.includes(value)) {
       // If it is, remove it
-      filterValue = filterValue.filter(item => item !== value);
+      filterValue = filterValue.filter((item) => item !== value);
 
       // If no values left, delete the param
       if (filterValue.length === 0) {
         searchParams.delete(sectionId);
       } else {
         // Otherwise, update the param with the remaining values
-        searchParams.set(sectionId, filterValue.join(','));
+        searchParams.set(sectionId, filterValue.join(","));
       }
     } else {
       // If the value is not selected, add it to the list
       filterValue.push(value);
-      searchParams.set(sectionId, filterValue.join(','));
+      searchParams.set(sectionId, filterValue.join(","));
     }
 
     // Generate the updated query string
@@ -82,6 +82,18 @@ const Products = () => {
     // Debugging the query string
     console.log(query);
   };
+
+  const handleRadioFilterChange = (sectionId, e) => {
+    const value = e.target.value;
+    const searchParams = new URLSearchParams(location.search);
+    searchParams.set(sectionId, value);
+    // Generate the updated query string
+    const query = searchParams.toString();
+
+    // Navigate to the new URL
+    navigate({ search: `?${query}` });
+  };
+
   return (
     <div className="bg-white">
       <div>
@@ -143,6 +155,9 @@ const Products = () => {
                         {section.options.map((option, optionIdx) => (
                           <div key={option.value} className="flex items-center">
                             <input
+                              onChange={() =>
+                                handleFilter(option.value, section.id)
+                              }
                               defaultValue={option.value}
                               defaultChecked={option.checked}
                               id={`filter-mobile-${section.id}-${optionIdx}`}
@@ -195,7 +210,10 @@ const Products = () => {
                           >
                             {section.options.map((option, optionIdx) => (
                               <FormControlLabel
-                                value={option.id}
+                                onChange={(e) =>
+                                  handleRadioFilterChange(section.id, e)
+                                }
+                                value={option.value}
                                 control={<Radio />}
                                 label={option.label}
                               />
@@ -368,7 +386,10 @@ const Products = () => {
                           >
                             {section.options.map((option, optionIdx) => (
                               <FormControlLabel
-                                value={option.id}
+                                onChange={(e) =>
+                                  handleRadioFilterChange(section.id, e)
+                                }
+                                value={option.value}
                                 control={<Radio />}
                                 label={option.label}
                               />
