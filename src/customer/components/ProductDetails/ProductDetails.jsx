@@ -189,7 +189,7 @@ export default function ProductDetails() {
                       </p>
                       <a
                         href={reviews.href}
-                        className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500"
+                        className="ml-3 text-sm font-medium text-zinc-900 hover:text-black"
                       >
                         {reviews.totalCount} reviews
                       </a>
@@ -240,7 +240,7 @@ export default function ProductDetails() {
                         </h3>
                         <a
                           href="#"
-                          className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
+                          className="text-sm font-medium text-zinc-900 hover:text-black"
                         >
                           Size guide
                         </a>
@@ -261,7 +261,7 @@ export default function ProductDetails() {
                                 size.inStock
                                   ? "cursor-pointer bg-white text-gray-900 shadow-sm"
                                   : "cursor-not-allowed bg-gray-50 text-gray-200",
-                                "group relative flex items-center justify-center rounded-md border px-4 py-3 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none data-[focus]:ring-2 data-[focus]:ring-indigo-500 sm:flex-1 sm:py-6"
+                                "group relative flex items-center justify-center rounded-md border px-4 py-3 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none data-[focus]:ring-2 data-[focus]:ring-zinc-900 sm:flex-1 sm:py-6"
                               )}
                             >
                               <span>{size.name}</span>
