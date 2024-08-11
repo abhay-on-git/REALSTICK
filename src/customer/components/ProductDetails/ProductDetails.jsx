@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { StarIcon } from "@heroicons/react/20/solid";
+import { ChevronRightIcon, StarIcon } from "@heroicons/react/20/solid";
 import { Radio, RadioGroup } from "@headlessui/react";
 import AliceCarousel from "react-alice-carousel";
 import { mainCarouselData } from "../HomeCarousel/MainCarousel";
@@ -7,6 +7,7 @@ import { Box, Grid, LinearProgress, Rating } from "@mui/material";
 import ProductReviewCard from "./ProductReviewCard";
 import HomeSectionCard from "../HomeSectionCard/HomeSectionCard";
 import ProductCard from "../Product/ProductCard";
+
 
 const product = {
   name: "Basic Tee 6-Pack",
@@ -69,15 +70,28 @@ function classNames(...classes) {
 const responsive = {
   0: { items: 1 },
 };
+const responsiveReviews = {
+  320: { items: 1 },
+  375: { items: 1 },
+  425: { items: 1 },
+  768: { items: 3 },
+  1024: { items: 2 },
+};
 
 const items = mainCarouselData.map((item) => (
-  <div className="w-full overflow-hidden lg:h-[36vmax] h-[64vmax]">
+  <div className="overflow-hidden lg:h-[36vmax] h-[64vmax]">
     <img
       className="w-full h-full object-cover cursor-pointer"
       role="presentation"
       src={`${item.image}`}
       alt="image"
     />
+  </div>
+));
+
+const reviewItems = [1, 1, 1, 1].map((item) => (
+  <div className=" w-fit p-4 flex flex-wrap overflow-hidden ">
+    <ProductReviewCard />
   </div>
 ));
 
@@ -123,7 +137,7 @@ export default function ProductDetails() {
                     responsive={responsive}
                     controlsStrategy="alternate"
                     disableDotsControls
-                    disableButtonsControls
+                    // disableButtonsControls
                     infinite
                     // Set height to 100% to take the height of the parent div
                     style={{ height: "100%" }}
@@ -349,31 +363,42 @@ export default function ProductDetails() {
       </section>
 
       {/* Ratings & Reviews */}
-      <section className="px-32">
+      <section className="lg:px-32 px-5">
         <h1 className="font-semibold text-lg pb-4 p-5">
           Recent Reviews and rating
         </h1>
-        <div className="border p-5">
-          <Grid container spacing={24} >
-            <Grid item xs={7}>
-              <div className="spave-y-5 w-full h-auto flex flex-wrap items-center justify-center gap-5">
-                {[1, 1, 1, 1].map((item) => (
-                  <ProductReviewCard />
-                ))}
+        <div className="border p-5 overflow-hidden">
+          <Grid
+            container
+            spacing={12}
+            justifyContent={"space-between"}
+            direction={{ xs: "column", sm: "column", md: "column", lg: "row" }}
+          >
+            <Grid item xs={3}>
+              <div className="space-y-5 lg:w-[32vmax] w-full  h-auto flex items-center justify-center">
+                <AliceCarousel
+                  mouseTracking
+                  items={reviewItems}
+                  responsive={responsiveReviews}
+                  controlsStrategy="alternate"
+                  disableDotsControls
+                  // disableButtonsControls
+                  infinite
+                />
               </div>
             </Grid>
             <Grid item xs={5}>
               <h1 className="text-xl font-semibold pb-1">Product Ratings</h1>
-              <div className="flex items-center space-x-3">
+              <div className="flex w-full md:flex md:items-center space-x-3">
                 <Rating value={4.6} precision={0.5} readOnly />
-                <p className="opacity-60">548689 Ratings</p>
+                <p className="opacity-60 whitespace-nowrap">548689 Ratings</p>
               </div>
               <Box className="mt-3 space-y-2">
-                <Grid container alignItems="center">
+                <Grid container gap={1} alignItems="center">
                   <Grid item xs={2}>
                     <p>Excellent</p>
                   </Grid>
-                  <Grid item xs={7}>
+                  <Grid item xs={10} md={7}>
                     <LinearProgress
                       sx={{ bgcolor: "#d0d0d0", borderRadius: 4, height: 7 }}
                       variant="determinate"
@@ -382,11 +407,11 @@ export default function ProductDetails() {
                     />
                   </Grid>
                 </Grid>
-                <Grid container alignItems="center">
-                  <Grid item xs={2}>
+                <Grid container gap={1} alignItems="center">
+                  <Grid item xs={5} md={2} lg={2}>
                     <p>Very Good</p>
                   </Grid>
-                  <Grid item xs={7}>
+                  <Grid item xs={10} md={7}>
                     <LinearProgress
                       sx={{ bgcolor: "#d0d0d0", borderRadius: 4, height: 7 }}
                       variant="determinate"
@@ -395,11 +420,11 @@ export default function ProductDetails() {
                     />
                   </Grid>
                 </Grid>
-                <Grid container alignItems="center">
+                <Grid container gap={1} alignItems="center">
                   <Grid item xs={2}>
                     <p>Good</p>
                   </Grid>
-                  <Grid item xs={7}>
+                  <Grid item xs={10} md={7}>
                     <LinearProgress
                       sx={{ bgcolor: "#d0d0d0", borderRadius: 4, height: 7 }}
                       variant="determinate"
@@ -408,11 +433,11 @@ export default function ProductDetails() {
                     />
                   </Grid>
                 </Grid>
-                <Grid container alignItems="center">
+                <Grid container gap={1} alignItems="center">
                   <Grid item xs={2}>
                     <p>Average</p>
                   </Grid>
-                  <Grid item xs={7}>
+                  <Grid item xs={10} md={7}>
                     <LinearProgress
                       sx={{ bgcolor: "#d0d0d0", borderRadius: 4, height: 7 }}
                       variant="determinate"
@@ -421,11 +446,11 @@ export default function ProductDetails() {
                     />
                   </Grid>
                 </Grid>
-                <Grid container alignItems="center">
+                <Grid container gap={1} alignItems="center">
                   <Grid item xs={2}>
                     <p>Poor</p>
                   </Grid>
-                  <Grid item xs={7}>
+                  <Grid item xs={10} md={7}>
                     <LinearProgress
                       sx={{ bgcolor: "#d0d0d0", borderRadius: 4, height: 7 }}
                       variant="determinate"
@@ -441,23 +466,21 @@ export default function ProductDetails() {
       </section>
 
       {/* Similar Products */}
-      <section>
-      <h1 className="font-semibold text-lg pb-4 p-5">
-          Similar Products
-        </h1>
-       <div className="lg:col-span-3">
-                {
-                  <section class="py-2 bg-white sm:py-5 lg:py-6">
-                    <div class="px-1 mx-auto max-w-7xl">
-                      <div class="grid grid-cols-2 gap-6 lg:gap-y-8 mt-0 lg:gap-6 lg:grid-cols-4">
-                        {[1, 1, 1, 1, 1, 1, 1].map((item) => (
-                          <ProductCard />
-                        ))}
-                      </div>
-                    </div>
-                  </section>
-                }
+      <section className="lg:px-32 px-5">
+        <h1 className="font-semibold text-lg pb-4 p-5">Similar Products</h1>
+        <div className="lg:col-span-3">
+          {
+            <section class="py-2 bg-white sm:py-5 lg:py-6">
+              <div class="px-1 mx-auto max-w-7xl">
+                <div class="grid grid-cols-2 gap-6 lg:gap-y-8 mt-0 lg:gap-6 lg:grid-cols-4">
+                  {[1, 1, 1, 1, 1, 1, 1].map((item) => (
+                    <ProductCard />
+                  ))}
+                </div>
               </div>
+            </section>
+          }
+        </div>
       </section>
     </>
   );
