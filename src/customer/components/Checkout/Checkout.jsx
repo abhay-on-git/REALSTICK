@@ -9,19 +9,14 @@ import { useLocation } from 'react-router-dom';
 import DeliveryAddressForm from './DeliveryAddressForm';
 import OrderSummary from './OrderSummary';
 
-const steps = ['Login', 'Delivery Address', 'Order Summary', 'Payment'];
+const steps = ['Delivery Address', 'Order Summary', 'Payment','Order Confirmed'];
 
 export default function Checkout() {
     const location  = useLocation();
   const querySearch = new URLSearchParams(location.search)
   const [activeStep, setActiveStep] = React.useState(0);
-  const [skipped, setSkipped] = React.useState(new Set());
 
   const step = querySearch.get('step')
-
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
@@ -29,19 +24,15 @@ export default function Checkout() {
 
 
   return (
-   <div className='px-10 lg:px-20 py-10'>
+   <div className='px-2 lg:px-20 py-10'>
      <Box sx={{ width: '100%' }}>
-      <Stepper activeStep={step}>
-        {steps.map((label, index) => {
-          const stepProps = {};
-          const labelProps = {};
-          return (
-            <Step key={label} {...stepProps}>
-              <StepLabel {...labelProps}>{label}</StepLabel>
-            </Step>
-          );
-        })}
-      </Stepper>
+     <Stepper activeStep={activeStep} alternativeLabel>
+        {steps.map((label)=><Step>
+            <StepLabel sx={{color:'#9155d', fontSize:"44px"}}>
+                {label}
+            </StepLabel>
+        </Step>)}
+        </Stepper>
       {activeStep === steps.length ? (
         <React.Fragment>
           <Typography sx={{ mt: 2, mb: 1 }}>

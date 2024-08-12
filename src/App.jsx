@@ -7,30 +7,21 @@ import ProductCard from "./customer/components/Product/ProductCard";
 import ProductDetails from "./customer/components/ProductDetails/ProductDetails";
 import Cart from "./customer/components/Cart/Cart";
 import Checkout from "./customer/components/Checkout/Checkout";
+import Order from "./customer/components/Order/Order";
+import OrderDetails from "./customer/components/Order/OrderDetails";
+import { Route, Routes } from "react-router-dom";
+import CustomerRouter from "./Routers/CustomerRouter";
 function App() {
   const [count, setCount] = useState(0);
 
   return (
+
     <>
-      <div>
-        <Navigation />
-      </div>
-      <div>
-        {/* <Homepage /> */}
-      </div>
-      <div>
-      {/* <Products/> */}
-      </div>
-      <div>
-        {/* <ProductDetails/> */}
-      </div>
-      <div>
-        {/* <Cart/> */}
-      </div>
-      <div>
-        <Checkout/>
-      </div>
-      <Footer/>
+    <Routes>
+      <Route path="/*" element={<CustomerRouter />} />
+    </Routes>
+       
+     
     </>
   );
 }

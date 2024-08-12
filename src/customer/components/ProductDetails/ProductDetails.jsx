@@ -7,6 +7,7 @@ import { Box, Grid, LinearProgress, Rating } from "@mui/material";
 import ProductReviewCard from "./ProductReviewCard";
 import HomeSectionCard from "../HomeSectionCard/HomeSectionCard";
 import ProductCard from "../Product/ProductCard";
+import { useNavigate } from "react-router-dom";
 
 
 const product = {
@@ -99,6 +100,10 @@ export default function ProductDetails() {
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const [selectedSize, setSelectedSize] = useState(product.sizes[2]);
 
+  const navigate = useNavigate()
+  const handleAddtoCart = ()=>{
+    navigate('/cart')
+  }
   return (
     <>
       <section>
@@ -305,7 +310,7 @@ export default function ProductDetails() {
                         Buy Now
                       </button>
                       <button
-                        type="submit"
+                        onClick={handleAddtoCart}
                         className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-zinc-800 px-8 py-3 text-base font-medium text-white hover:bg-black focus:outline-none focus:ring-2 focus:ring-zinc-800 focus:ring-offset-2"
                       >
                         Add to Cart

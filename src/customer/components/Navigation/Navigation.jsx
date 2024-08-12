@@ -14,6 +14,9 @@ import {
   TabPanels,
 } from '@headlessui/react'
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Link, useNavigate } from 'react-router-dom'
+import { Category } from '@mui/icons-material'
+import { Button } from '@mui/material'
 
 const navigation = {
   categories: [
@@ -139,7 +142,12 @@ const navigation = {
 }
 
 export default function Navigation() {
+  const handleCategoryClick = (category,section,item,close)=>{
+    navigate(`/${category.id}/${section.id}/${item.id}`);
+    close();
+  }
   const [open, setOpen] = useState(false)
+  const navigate = useNavigate();
 
   return (
     <div className="bg-white">
@@ -347,9 +355,20 @@ export default function Navigation() {
                                     >
                                       {section.items.map((item) => (
                                         <li key={item.name} className="flex">
-                                          <a href={item.href} className="hover:text-gray-800">
+                                          <p
+                                          onClick={()=>handleCategoryClick(
+                                            category,
+                                            section,
+                                            item,
+                                            close
+                                          )}
+                                          className='cursor-pointer hover:text-gray-800'
+                                          >
                                             {item.name}
-                                          </a>
+                                          </p>
+                                          {/* <a href={item.href} className="hover:text-gray-800">
+                                            {item.name}
+                                          </a> */}
                                         </li>
                                       ))}
                                     </ul>
@@ -407,14 +426,14 @@ export default function Navigation() {
 
                 {/* Cart */}
                 <div className="ml-4 flow-root lg:ml-6">
-                  <a href="#" className="group -m-2 flex items-center p-2">
+                  <Link to={'/cart'} className="group -m-2 flex items-center p-2">
                     <ShoppingBagIcon
                       aria-hidden="true"
                       className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                     />
                     <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">0</span>
                     <span className="sr-only">items in cart, view bag</span>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
