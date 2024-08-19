@@ -24,7 +24,7 @@ import { Category } from "@mui/icons-material";
 import { Avatar, Button, Menu, MenuItem } from "@mui/material";
 import AuthModal from "../../auth/AuthModal";
 import { useDispatch, useSelector } from "react-redux";
-import { getUser } from "../../../Redux/Auth/Action";
+import { getUser, logout } from "../../../Redux/Auth/Action";
 
 const navigation = {
   categories: [
@@ -158,7 +158,8 @@ const navigation = {
 
 export default function Navigation() {
   const [open, setOpen] = useState(false);
-  const [openAuthModal, setOpenAuthModal] = useState(false);
+  const [openAuthModal,setOpenAuthModal] = useState(false)
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -181,12 +182,32 @@ export default function Navigation() {
 
   const handleClose = () => {
     setOpenAuthModal(false);
+    navigate('/')
+  };
+
+  const navigateToMyOrders = () => {
+    handleCloseMenu();
+    navigate("/account/order");
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("jwt");
+    setIsAuthenticated(false);
+    handleCloseMenu();
+    dispatch(logout());
   };
 
   const handleCategoryClick = (category, section, item, close) => {
     navigate(`/${category.id}/${section.id}/${item.id}`);
     close();
   };
+
+
+  useEffect(()=>{
+    if(jwt){
+      setIsAuthenticated(true);
+      }
+  })
 
   useEffect(() => {
     if (jwt) {
@@ -378,15 +399,15 @@ export default function Navigation() {
               </button>
 
               {/* Logo */}
-              <div className="ml-4 flex font-semibold lg:ml-0">
-                <a href="#">
+              <div className="ml-4 flex font-semibold lg:ml-0 cursor-pointer">
+                <div onClick={() => navigate("/")}>
                   <h1 className="text-lg font-semibold">REALSTICK</h1>
                   {/* <img
                     alt=""
                     src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                     className="h-8 w-auto"
                   /> */}
-                </a>
+                </div>
               </div>
 
               {/* Flyout menus */}
@@ -500,10 +521,10 @@ export default function Navigation() {
               </PopoverGroup>
 
               <div className="ml-auto flex items-center">
-                {auth.user?.firstName ? (
+                {isAuthenticated ? (
                   <div className="hidden lg:flex ">
                     <Avatar
-                      className="text-white"
+                      className="text-white cursor-pointer"
                       aria-controls={openMenu ? "basic-menu" : undefined}
                       area-hashpopup="true"
                       area-extended={openMenu ? "true" : undefined}
@@ -521,8 +542,10 @@ export default function Navigation() {
                       }}
                     >
                       <MenuItem onClick={handleClose}>Profile</MenuItem>
-                      <MenuItem onClick={handleClose}>My Orders</MenuItem>
-                      <MenuItem onClick={handleClose}>Logout</MenuItem>
+                      <MenuItem onClick={navigateToMyOrders}>
+                        My Orders
+                      </MenuItem>
+                      <MenuItem onClick={handleLogout}>Logout</MenuItem>
                     </Menu>
                   </div>
                 ) : (
@@ -531,11 +554,7 @@ export default function Navigation() {
                       onClick={handleOpen}
                       className="text-sm font-medium text-gray-700 hover:text-gray-800"
                     >
-                      Sign in
-                    </button>
-                    <span aria-hidden="true" className="h-6 w-px bg-gray-200" />
-                    <button className="text-sm font-medium text-gray-700 hover:text-gray-800">
-                      Create account
+                      SIGNUP
                     </button>
                   </div>
                 )}
