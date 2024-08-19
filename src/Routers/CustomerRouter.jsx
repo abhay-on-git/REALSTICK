@@ -15,6 +15,8 @@ const CustomerRouter = () => {
     <div>
          <Navigation />
         <Routes>
+        <Route path="/login" element={<Homepage />} />
+        <Route path="/signup" element={<Homepage />} />
             <Route path="/" element={<Homepage />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/:levelOne/:levelTwo/:levelThree" element={<Products />} />
