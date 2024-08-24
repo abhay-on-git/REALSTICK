@@ -1,11 +1,13 @@
+import axios from "axios";
+
 export const API_BASE_URL = 'http://localhost:3000'
 
 const token = localStorage.getItem('jwt');
 
 export const api = axios.create({
-    baseUrl:API_BASE_URL,
+    baseURL:API_BASE_URL,
     headers:{
         "Authorization":`Bearer ${token}`,
-        "Content-Type":"application/jsom"
+        "Content-Type":"application/json"
     }
 })

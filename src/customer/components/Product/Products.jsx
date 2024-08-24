@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ProductCard from "./ProductCard";
 import { useState } from "react";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import Pagination from '@mui/material/Pagination';
 import {
   Dialog,
   DialogBackdrop,
@@ -30,7 +31,9 @@ import {
   Radio,
   RadioGroup,
 } from "@mui/material";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { findProducts } from "../../../Redux/Product/Action";
 
 const sortOptions = [
   { name: "Most Popular", href: "#", current: true },
@@ -47,7 +50,59 @@ function classNames(...classes) {
 const Products = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const params = useParams();
+  const dispatch = useDispatch();
+  const product = useSelector(store  => store.product)
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  
+  const decodedQueryString = decodeURIComponent(location.search);
+  const searchParams = new URLSearchParams(decodedQueryString);
+  const colorValue = searchParams.get('color')
+  const sizeValue = searchParams.get('size')
+  const priceValue = searchParams.get('search')
+  const discountValue  = searchParams.get('discount')
+  const sortValue = searchParams.get('sort')
+  const pageNumber = searchParams.get('page') || 1;
+  const stockValue = searchParams.get('stock')
+
+  useEffect(()=>{
+    console.log('rendereddddd')
+    const [minPrice , maxPrice] = priceValue === null ? [0,10000] : priceValue.split("-").map(Number) 
+    const data = {
+      category:params.levelThree,
+      color:colorValue || [],
+      discount:discountValue || 0,
+      minPrice,
+      maxPrice,
+      size:sizeValue || [],
+      sort:sortValue || 'price_low',
+      pageNumber:pageNumber-1,
+      pageSize:10,
+      stock:stockValue,
+    }
+    dispatch(findProducts(data))
+  },[
+    params.levelThree,
+    colorValue,
+    sizeValue,
+    priceValue,
+    discountValue,
+    sortValue,
+    stockValue,
+    pageNumber,
+  ])
+
+
+const handlePaginationChange = (event , value)=>{
+   const searchParams = new URLSearchParams(location.search)
+   searchParams.set("page",value);
+   const query = searchParams.toString();
+   navigate({search:`?${query}`})
+}
+
+
+
+
   const handleFilter = (value, sectionId) => {
     // Parse the search params from the current location
     const searchParams = new URLSearchParams(location.search);
@@ -408,8 +463,8 @@ const Products = () => {
                   <section class="py-2 bg-white sm:py-5 lg:py-6">
                     <div class="px-1 mx-auto max-w-7xl">
                       <div class="grid grid-cols-2 gap-6 lg:gap-y-8 mt-0 lg:gap-6 lg:grid-cols-4">
-                        {[1, 1, 1, 1, 1, 1, 1].map((item) => (
-                          <ProductCard />
+                        {product?.products?.content?.map((item) => (
+                          <ProductCard item={item} />
                         ))}
                       </div>
                     </div>
@@ -418,6 +473,13 @@ const Products = () => {
               </div>
             </div>
           </section>
+
+          <section className="w-full px-[3.6rem]">
+            <div className="px-4 py-5 flex justify-center ">
+               <Pagination count={product.products?.totalPages} color="secondary" onChange={handlePaginationChange}/>
+            </div>
+          </section>
+
         </main>
       </div>
     </div>

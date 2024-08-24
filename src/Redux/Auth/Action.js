@@ -12,6 +12,7 @@ import {
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
 } from "./ActionType";
+import { toast } from "react-toastify";
 
 const token = localStorage.getItem("jwt");
 
@@ -32,6 +33,7 @@ export const signup = (userData) => async (dispatch) => {
       dispatch(registerSuccess(user.jwt));
     }
   } catch (error) {
+    toast.error("Signup failed. Please try again.");
     console.error('API call failed:', error);
     dispatch(registerFailure(error.message));
   }
@@ -48,10 +50,11 @@ export const login = (userData) => async (dispatch) => {
     const user = response.data;
     if (user.jwt) {
       localStorage.setItem("jwt", user.jwt);
-      console.log(user,'llllllllllllllllllllll')
       dispatch(loginSuccess(user.jwt));
+      toast.success("Login Succesfull")
     }
   } catch (error) {
+    toast.error("Login failed. Please try again.");
     dispatch(loginFailure(error.message));
   }
 };

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChevronRightIcon, StarIcon } from "@heroicons/react/20/solid";
 import { Radio, RadioGroup } from "@headlessui/react";
 import AliceCarousel from "react-alice-carousel";
@@ -7,8 +7,10 @@ import { Box, Grid, LinearProgress, Rating } from "@mui/material";
 import ProductReviewCard from "./ProductReviewCard";
 import HomeSectionCard from "../HomeSectionCard/HomeSectionCard";
 import ProductCard from "../Product/ProductCard";
-import { useNavigate } from "react-router-dom";
-
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { findProductById } from "../../../Redux/Product/Action";
+import { addItemToCart } from "../../../Redux/Cart/Action";
 
 const product = {
   name: "Basic Tee 6-Pack",
@@ -99,11 +101,23 @@ const reviewItems = [1, 1, 1, 1].map((item) => (
 export default function ProductDetails() {
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const [selectedSize, setSelectedSize] = useState(product.sizes[2]);
+  const params = useParams();
+  const dispatch = useDispatch();
+  const productData = useSelector(store => store.product.product)
+  console.log(productData,'ddddddddddddddddddd')
 
-  const navigate = useNavigate()
-  const handleAddtoCart = ()=>{
-    navigate('/cart')
-  }
+  const navigate = useNavigate();
+  const handleAddtoCart = () => {
+    const data = {productId : params.productId, size:selectedSize.name}
+    dispatch(addItemToCart(data))
+    navigate("/cart");
+  };
+
+  useEffect(() => {
+    const data = { productId: params.productId };
+    dispatch(findProductById(data));
+  }, [params.productId]);
+
   return (
     <>
       <section>
@@ -114,23 +128,23 @@ export default function ProductDetails() {
               <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
                 <div className="aspect-h-4 aspect-w-3 hidden overflow-hidden rounded-lg lg:block">
                   <img
-                    alt={product.images[0].alt}
-                    src={product.images[0].src}
+                    alt={product?.images[0].alt}
+                    src={productData?.imageURL}
                     className="h-full w-full object-cover object-center"
                   />
                 </div>
                 <div className="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
                   <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
                     <img
-                      alt={product.images[1].alt}
-                      src={product.images[1].src}
+                      alt={product?.images[1].alt}
+                      src={product?.images[1].src}
                       className="h-full w-full object-cover object-center"
                     />
                   </div>
                   <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
                     <img
-                      alt={product.images[2].alt}
-                      src={product.images[2].src}
+                      alt={product?.images[2].alt}
+                      src={product?.images[2].src}
                       className="h-full w-full object-cover object-center"
                     />
                   </div>
@@ -154,7 +168,7 @@ export default function ProductDetails() {
               <div className="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16">
                 <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
                   <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
-                    {product.name}
+                    {productData?.title}
                   </h1>
                 </div>
 
@@ -163,11 +177,11 @@ export default function ProductDetails() {
                   <h2 className="sr-only">Product information</h2>
                   <div className="flex items-center gap-5">
                     <p className="text-3xl tracking-tight text-gray-900 mr-3">
-                      {product.price}
+                      {productData?.discountedPrice}
                     </p>
-                    <p className="line-through text-xl opacity-70">$999</p>
+                    <p className="line-through text-xl opacity-70">{productData?.price}</p>
                     <p class="sm:px-3 sm:py-2 px-2 py-1 text-sm sm:text-xs lg:text-[1vmax] font-bold tracking-wide text-white uppercase bg-zinc-900 rounded-full">
-                      76%
+                      {productData?.discountPersent +" %" || '76%'}
                     </p>
                   </div>
 
@@ -326,7 +340,7 @@ export default function ProductDetails() {
 
                     <div className="space-y-6">
                       <p className="text-base text-gray-900">
-                        {product.description}
+                        {productData?.description}
                       </p>
                     </div>
                   </div>

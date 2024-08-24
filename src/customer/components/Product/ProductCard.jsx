@@ -1,17 +1,19 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const ProductCard = ({ product }) => {
+const ProductCard = ( item ) => {
+  const productData = item.item
+  console.log(productData,'pppppppppppppppppppp')
     const navigate = useNavigate()
   return (
     <div 
-    onClick={()=>navigate(`/product/${id}`)}
+    onClick={()=>navigate(`/product/${productData._id}`)}
     class="relative group w-full">
-      <div class="overflow-hidden aspect-w-auto aspect-h-1 ">
+      <div class="overflow-hidden aspect-w-auto h-[12rem] md:h-[16rem]  bg-red-400 ">
         <img
           class="object-cover w-full h-full transition-all duration-300 group-hover:scale-125"
-          src="https://cdn.rareblocks.xyz/collection/clarity-ecommerce/images/item-cards/4/product-1.png"
-          alt=""
+          src={productData?.imageURL}
+          alt="product Image"
         />
       </div>
       <div class="absolute left-3 top-3">
@@ -22,10 +24,8 @@ const ProductCard = ({ product }) => {
       <div class="flex items-start justify-between mt-4 space-x-4">
         <div>
           <h3 class="text-xs font-bold text-gray-900 sm:text-sm md:text-base">
-            <a href="#" title="">
-              Beoplay M5 Bluetooth Speaker
+              {productData?.title}
               <span class="absolute inset-0" aria-hidden="true"></span>
-            </a>
           </h3>
           <div class="flex items-center mt-2.5 space-x-px">
             <svg
@@ -73,10 +73,10 @@ const ProductCard = ({ product }) => {
 
         <div class="text-right">
           <p class="text-xs font-bold text-gray-900 sm:text-sm md:text-base">
-            $99.00
+            {`₹`+ productData?.discountedPrice}
           </p>
           <p class="text-xs font-bold line-through text-[#00000070] sm:text-sm md:text-base">
-            $999.00
+            {`₹`+ productData?.price}
           </p>
         </div>
       </div>

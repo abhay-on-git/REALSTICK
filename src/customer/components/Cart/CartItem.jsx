@@ -4,26 +4,27 @@ import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { Button } from "@headlessui/react";
 
-const CartItem = () => {
+const CartItem = ({item}) => {
+  const [product] = item.product;
   return (
     <div className="p-5 shadow-lg border rounded-md">
       <div className="flex items-center">
         <div className="w-[5rem] h-[5rem] lg:w-[9rem] lg:h-[9rem]">
           <img
             className="w-full h-full object-cover object-top"
-            src="https://images.unsplash.com/photo-1723239406233-88c68024a4d5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw5fHx8ZW58MHx8fHx8"
+            src={product.imageURL || "https://images.unsplash.com/photo-1723239406233-88c68024a4d5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw5fHx8ZW58MHx8fHx8"}
             alt=""
           />
         </div>
         <div className="ml-5 space-y-1">
-          <p className="font-semibold">Mens gen-Z tees</p>
+          <p className="font-semibold">{product.title}</p>
           <p className="opacity-70">Size : Lg-White</p>
-          <p className="opacity-70 mt-2">Seller : Realstick</p>
+          <p className="opacity-70 mt-2">Seller : {product.brand}</p>
           <div className="flex items-center gap-3 pt-5 ">
-            <p className=" tracking-tight font-bold text-gray-900">₹199/-</p>
-            <p className="line-through opacity-70">₹999</p>
+            <p className=" tracking-tight font-bold text-gray-900">₹{product.discountedPrice}</p>
+            <p className="line-through opacity-70">₹{product.price}</p>
             <p class="sm:px-3 sm:py-2 px-2 py-1 text-sm sm:text-xs font-bold tracking-wide text-gray-900 opacity-70 uppercase  rounded-full">
-              76% off
+              {product.discountPersent + " %"} off
             </p>
           </div>
         </div>

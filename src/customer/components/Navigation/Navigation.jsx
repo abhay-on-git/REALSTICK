@@ -160,10 +160,12 @@ export default function Navigation() {
   const [open, setOpen] = useState(false);
   const [openAuthModal,setOpenAuthModal] = useState(false)
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isOpenNavigation,setIsOpenNavigation] = useState(false)
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
   const jwt = localStorage.getItem("jwt");
+  const cartItems = useSelector((store)=> store.cart.cartItems)
   const auth = useSelector((store) => store.auth);
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -194,12 +196,13 @@ export default function Navigation() {
     localStorage.removeItem("jwt");
     setIsAuthenticated(false);
     handleCloseMenu();
+    navigate('/')
     dispatch(logout());
   };
 
-  const handleCategoryClick = (category, section, item, close) => {
-    navigate(`/${category.id}/${section.id}/${item.id}`);
-    close();
+  const handleCategoryClick = (category, section, item) => {
+    navigate(`/${category.id}/${section.id}/${item.name}`);
+    setIsOpenNavigation(!isOpenNavigation)
   };
 
 
@@ -315,7 +318,7 @@ export default function Navigation() {
                               <a
                                 href={item.href}
                                 className="-m-2 block p-2 text-gray-500"
-                              >
+                                >
                                 {item.name}
                               </a>
                             </li>
@@ -414,14 +417,18 @@ export default function Navigation() {
               <PopoverGroup className="hidden lg:ml-8 lg:block lg:self-stretch z-40">
                 <div className="flex h-full space-x-8">
                   {navigation.categories.map((category) => (
-                    <Popover key={category.name} className="flex">
+                    <Popover key={category.name} className="flex" >
                       <div className="relative flex">
-                        <PopoverButton className="relative z-10 -mb-px flex items-center border-b-2 border-transparent pt-px text-sm font-medium text-gray-700 transition-colors duration-200 ease-out hover:text-gray-800 data-[open]:border-indigo-600 data-[open]:text-indigo-600">
+                        <PopoverButton 
+                        onClick={()=>setIsOpenNavigation(true)}
+                        className="relative z-10 -mb-px flex items-center border-b-2 border-transparent pt-px text-sm font-medium text-gray-700 transition-colors duration-200 ease-out hover:text-gray-800 data-[open]:border-zinc-900 data-[open]:text-zinc-900">
                           {category.name}
                         </PopoverButton>
                       </div>
 
-                      <PopoverPanel
+                      {
+                        isOpenNavigation &&
+                        <PopoverPanel
                         transition
                         className="absolute inset-x-0 top-full text-sm text-gray-500 transition data-[closed]:opacity-0 data-[enter]:duration-200 data-[leave]:duration-150 data-[enter]:ease-out data-[leave]:ease-in"
                       >
@@ -485,7 +492,7 @@ export default function Navigation() {
                                                 category,
                                                 section,
                                                 item,
-                                                close
+                                                console.log(category,section,item,'iiiiiiiiiii')
                                               )
                                             }
                                             className="cursor-pointer hover:text-gray-800"
@@ -505,6 +512,7 @@ export default function Navigation() {
                           </div>
                         </div>
                       </PopoverPanel>
+                      }
                     </Popover>
                   ))}
 
@@ -581,7 +589,7 @@ export default function Navigation() {
                       className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                     />
                     <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
-                      0
+                      {cartItems.length}
                     </span>
                     <span className="sr-only">items in cart, view bag</span>
                   </Link>

@@ -9,6 +9,7 @@ const LoginForm = () => {
   const dispatch = useDispatch()
   const auth = useSelector(store => store.auth)
   const jwt = localStorage.getItem('jwt')
+  console.log(jwt,'ooooooooooooooooooooooooooo')
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);

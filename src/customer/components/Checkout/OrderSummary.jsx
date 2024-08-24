@@ -24,7 +24,7 @@ const OrderSummary = () => {
                 <span>₹4217</span>
               </div>
               <div className="flex justify-between pt-3 text-black">
-                <span>Disccount</span>
+                <span>Discount</span>
                 <span className="text-green-600">-3419</span>
               </div>
               <div className="flex justify-between pt-3 ">
