@@ -9,14 +9,13 @@ const Cart = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const {cart} = useSelector((state) => state.cart)
-  console.log(cart,'++++++++++++++++++++++')
   const handleCheckOut = ()=>{
-    navigate('/checkout?step=2')
+    navigate('/checkout?step=1')
   }
 
   useEffect(()=>{
     dispatch(getCart())
-  },[])
+  },[cart?.cartItems])
   return (
     <div>
         <div className="lg:grid grid-cols-3 lg:px-16 py-8 relative">
