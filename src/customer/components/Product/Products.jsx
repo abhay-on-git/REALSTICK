@@ -66,7 +66,7 @@ const Products = () => {
   const stockValue = searchParams.get('stock')
 
   useEffect(()=>{
-    console.log('rendereddddd')
+    // console.log('rendereddddd')
     const [minPrice , maxPrice] = priceValue === null ? [0,10000] : priceValue.split("-").map(Number) 
     const data = {
       category:params.levelThree,
